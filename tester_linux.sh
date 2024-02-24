@@ -13,6 +13,8 @@ num_args=$2			# number of ARGS
 min=$3				# min of range
 max=$4				# max of range
 
+
+sequince=0
 I=0				# counter
 moves=0				# moves number
 rule=0				# rules
@@ -35,6 +37,8 @@ BLUE_BG_BOLD="\e[1;44m"
 MAGENTA_BG_BOLD="\e[1;45m"
 CYAN_BG_BOLD="\e[1;46m"
 
+
+
 if [ $num_args -le 3 ];then
 	((rule=3))
 elif [ $num_args -le 5 ]
@@ -51,8 +55,11 @@ fi
 if [ -x "./push_swap" ]; then
    while [[ $I -ne $N ]]; do
 	echo -e "${BLUE_BG_BOLD}--------------   Test $(($I+1))   --------------${CLEAR}\n"
-	moves=$(./push_swap $(seq $min $max | shuf -n $num_args) | wc -l)
-	moves=$(./push_swap $(seq $min $max | shuf -n $num_args) | wc -l)
+	sequince=$(seq $min $max | shuf -n $num_args)
+	./push_swap $sequince > .out
+	cat .out | ./checker_linux $sequince 
+	moves=$(cat .out | wc -l)
+	rm -rf .out
 	echo -en "MOVES: \e[33m "$moves" \e[0m"
 	if [ $moves -gt $rule ];then
 		flag=-1
@@ -72,16 +79,9 @@ else
 fi
 
 if [ $flag -eq 1 ];then
-	echo -e "${GREEN_BG_BOLD} CONGRATULATION 👏🎉🥳 ALL TESTS PASSED SUCCESSFULLY \e[0m \e[33m$num_args/$num_args TESTS ${CLEAR}\n"
+	echo -e "${GREEN_BG_BOLD} CONGRATULATION 👏🎉🥳 ALL TESTS PASSED SUCCESSFULLY \e[0m \e[33m $N/ $N TESTS ${CLEAR}\n"
 elif [ $flag -eq -1 ]
 then
-	echo -e "${RED_BG_BOLD}OOOOOOPS! 💔🥴🥹  YOU HAVE  $count_error/$num_args ERROR ${CLEAR}"
+	echo -e "${RED_BG_BOLD}OOOOOOPS! 💔🥴🥹  YOU HAVE  $count_error / $N  ERROR ${CLEAR}"
 fi
-
-
-
-
-
-
-
 
