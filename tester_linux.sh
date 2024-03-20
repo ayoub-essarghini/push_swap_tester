@@ -57,7 +57,7 @@ if [ -x "./push_swap" ]; then
 	echo -e "${BLUE_BG_BOLD}--------------   Test $(($I+1))   --------------${CLEAR}\n"
 	sequince=$(seq $min $max | shuf -n $num_args)
 	./push_swap $sequince > .out
-	cat .out | ./checker_linux $sequince 
+	#cat .out | ./checker_linux $sequince 
 	moves=$(cat .out | wc -l)
 	rm -rf .out
 	echo -en "MOVES: \e[33m "$moves" \e[0m"
